@@ -1,55 +1,72 @@
-jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
+const socket = window.io();
+const form = jQuery("#message-form");
+const geoButton = jQuery("#send-location");
 
-jQuery("#profile-img").click(function() {
-    jQuery("#status-options").toggleClass("active");
+socket.on("connect", function() {
+    console.log("connected to server");
+});
+socket.on("disconnect", function() {
+    console.log("Disconnected from server");
 });
 
-jQuery(".expand-button").click(function() {
-    jQuery("#profile").toggleClass("expanded");
-    jQuery("#contacts").toggleClass("expanded");
+form.on("submit", function(e) {
+    e.preventDefault();
+    socket.emit("createMessage", { from: "User", text: jQuery("[name=message]").val() }, function(data) {
+        console.log("ACKOWNLEDGE ==> Got it", data);
+    });
+    form.trigger("reset");
+});
+geoButton.on("click", function(e) {
+    e.preventDefault();
+    navigator.geolocation.getCurrentPosition(
+        function(position) {
+            socket.emit("createLocationMessage", {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            });
+        },
+        function() {
+            alert("unable to geolocate");
+        }
+    );
 });
 
-jQuery("#status-options ul li").click(function() {
-    jQuery("#profile-img").removeClass();
-    jQuery("#status-online").removeClass("active");
-    jQuery("#status-away").removeClass("active");
-    jQuery("#status-busy").removeClass("active");
-    jQuery("#status-offline").removeClass("active");
-    jQuery(this).addClass("active");
-
-    if (jQuery("#status-online").hasClass("active")) {
-        jQuery("#profile-img").addClass("online");
-    } else if (jQuery("#status-away").hasClass("active")) {
-        jQuery("#profile-img").addClass("away");
-    } else if (jQuery("#status-busy").hasClass("active")) {
-        jQuery("#profile-img").addClass("busy");
-    } else if (jQuery("#status-offline").hasClass("active")) {
-        jQuery("#profile-img").addClass("offline");
-    } else {
-        jQuery("#profile-img").removeClass();
-    }
-
-    jQuery("#status-options").removeClass("active");
-});
-
-function newMessage() {
-    message = jQuery(".message-input input").val();
-    if (jQuery.trim(message) == "") {
+socket.on("newSentMessage", function(message) {
+    if (jQuery.trim(message.text) == "") {
         return false;
     }
-    jQuery('<li class="sent"><img src="/icon/userDefaultimage.png" alt="" /><p>' + message + "</p></li>").appendTo(jQuery(".messages ul"));
-    jQuery(".message-input input").val(null);
-    jQuery(".contact.active .preview").html("<span>You: </span>" + message);
+    jQuery(`<li class="sent"><img src="/icon/userDefaultimage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
+        jQuery(".messages ul")
+    );
+    jQuery(".contact.active .preview").html(`You: ${message.text}`);
     jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
-}
-
-jQuery(".submit").click(function() {
-    newMessage();
 });
-
-jQuery(window).on("keydown", function(e) {
-    if (e.which == 13) {
-        newMessage();
+socket.on("newRecieveMessage", function(message) {
+    if (jQuery.trim(message.text) == "") {
         return false;
     }
+    jQuery(`<li class="replies"><img src="/icon/userDefaultimage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
+        jQuery(".messages ul")
+    );
+    jQuery(".contact.active .preview").html(message.text);
+    jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
+});
+socket.on("newSentLocationMessage", function(message) {
+    jQuery(
+        `<li class="sent"><img src="/icon/userDefaultimage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
+            message.from
+        }: Go to your location</a></p></li>`
+    ).appendTo(jQuery(".messages ul"));
+    jQuery(".contact.active .preview").html(`You: Go to location`);
+    jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
+});
+
+socket.on("newRecieveLocationMessage", function(message) {
+    jQuery(
+        `<li class="replies"><img src="/icon/userDefaultimage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
+            message.from
+        }: Go to your location</a></p></li>`
+    ).appendTo(jQuery(".messages ul"));
+    jQuery(".contact.active .preview").html(`Go to location`);
+    jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
 });

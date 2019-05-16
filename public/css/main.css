@@ -12,7 +12,9 @@ body {
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
     -webkit-font-smoothing: antialiased;
 }
-
+ul {
+    padding-left: 0;
+}
 #frame {
     width: 95%;
     min-width: 360px;
@@ -612,6 +614,7 @@ body {
     width: 100%;
     z-index: 99;
     background-color: #b9b9b9;
+    margin-bottom: -18px;
 }
 #frame .content .message-input .wrap {
     position: relative;
@@ -656,7 +659,7 @@ body {
     float: right;
     border: none;
     width: 50px;
-    padding: 12px 0;
+    padding: 2px 0;
     cursor: pointer;
     background: #32465a;
     color: #f5f5f5;
