@@ -1,7 +1,6 @@
 const socket = window.io();
 const form = jQuery("#message-form");
 const geoButton = jQuery("#send-location");
-
 socket.on("connect", function() {
     console.log("connected to server");
 });
@@ -35,7 +34,8 @@ socket.on("newSentMessage", function(message) {
     if (jQuery.trim(message.text) == "") {
         return false;
     }
-    jQuery(`<li class="sent"><img src="/icon/userDefaultImage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
+    let formatedTime = moment(message.createdAt).format("h:mm a");
+    jQuery(`<li class="sent"><img src="/icon/userDefaultImage.png" alt="" /><p>  ${message.from} ${formatedTime}: ${message.text}</p></li>`).appendTo(
         jQuery(".messages ul")
     );
     jQuery(".contact.active .preview").html(`You: ${message.text}`);
@@ -45,27 +45,30 @@ socket.on("newRecieveMessage", function(message) {
     if (jQuery.trim(message.text) == "") {
         return false;
     }
-    jQuery(`<li class="replies"><img src="/icon/userDefaultImage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
-        jQuery(".messages ul")
-    );
+    let formatedTime = moment(message.createdAt).format("h:mm a");
+    jQuery(
+        `<li class="replies"><img src="/icon/userDefaultImage.png" alt="" /><p>  ${message.from} ${formatedTime}: ${message.text}</p></li>`
+    ).appendTo(jQuery(".messages ul"));
     jQuery(".contact.active .preview").html(message.text);
     jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
 });
 socket.on("newSentLocationMessage", function(message) {
+    let formatedTime = moment(message.createdAt).format("h:mm a");
     jQuery(
         `<li class="sent"><img src="/icon/userDefaultImage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
             message.from
-        }: Go to your location</a></p></li>`
+        } ${formatedTime}: Go to your location</a></p></li>`
     ).appendTo(jQuery(".messages ul"));
     jQuery(".contact.active .preview").html(`You: Go to location`);
     jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
 });
 
 socket.on("newRecieveLocationMessage", function(message) {
+    let formatedTime = moment(message.createdAt).format("h:mm a");
     jQuery(
         `<li class="replies"><img src="/icon/userDefaultImage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
             message.from
-        }: Go to your location</a></p></li>`
+        } ${formatedTime}: Go to your location</a></p></li>`
     ).appendTo(jQuery(".messages ul"));
     jQuery(".contact.active .preview").html(`Go to location`);
     jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
