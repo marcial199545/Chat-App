@@ -35,7 +35,7 @@ socket.on("newSentMessage", function(message) {
     if (jQuery.trim(message.text) == "") {
         return false;
     }
-    jQuery(`<li class="sent"><img src="/icon/userDefaultimage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
+    jQuery(`<li class="sent"><img src="/icon/userDefaultImage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
         jQuery(".messages ul")
     );
     jQuery(".contact.active .preview").html(`You: ${message.text}`);
@@ -45,7 +45,7 @@ socket.on("newRecieveMessage", function(message) {
     if (jQuery.trim(message.text) == "") {
         return false;
     }
-    jQuery(`<li class="replies"><img src="/icon/userDefaultimage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
+    jQuery(`<li class="replies"><img src="/icon/userDefaultImage.png" alt="" /><p> ${message.from}: ${message.text}</p></li>`).appendTo(
         jQuery(".messages ul")
     );
     jQuery(".contact.active .preview").html(message.text);
@@ -53,7 +53,7 @@ socket.on("newRecieveMessage", function(message) {
 });
 socket.on("newSentLocationMessage", function(message) {
     jQuery(
-        `<li class="sent"><img src="/icon/userDefaultimage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
+        `<li class="sent"><img src="/icon/userDefaultImage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
             message.from
         }: Go to your location</a></p></li>`
     ).appendTo(jQuery(".messages ul"));
@@ -63,7 +63,7 @@ socket.on("newSentLocationMessage", function(message) {
 
 socket.on("newRecieveLocationMessage", function(message) {
     jQuery(
-        `<li class="replies"><img src="/icon/userDefaultimage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
+        `<li class="replies"><img src="/icon/userDefaultImage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
             message.from
         }: Go to your location</a></p></li>`
     ).appendTo(jQuery(".messages ul"));
