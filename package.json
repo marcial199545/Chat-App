@@ -19,6 +19,7 @@
         "ncp": "^2.0.0",
         "rimraf": "^2.6.3",
         "socket.io": "^2.2.0",
+        "morgan": "^1.9.1",
         "typescript": "^3.4.5"
     },
     "devDependencies": {
@@ -26,7 +27,9 @@
         "@types/express-handlebars": "0.0.31",
         "@types/morgan": "^1.7.35",
         "@types/socket.io": "^2.1.2",
-        "morgan": "^1.9.1",
         "nodemon": "^1.19.0"
+    },
+    "engines": {
+        "node": "11.12.0"
     }
 }
