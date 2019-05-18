@@ -7,4 +7,5 @@ const express_1 = require("express");
 const indexControllers_1 = __importDefault(require("../controllers/indexControllers"));
 const router = express_1.Router();
 router.route("/").get(indexControllers_1.default.renderIndex);
+router.route("/chat").get(indexControllers_1.default.renderChatRoom);
 exports.default = router;

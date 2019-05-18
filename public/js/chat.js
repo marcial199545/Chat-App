@@ -1,20 +1,32 @@
 const socket = window.io();
-const form = jQuery("#message-form");
+const messageForm = jQuery("#message-form");
+const joinForm = jQuery("#join-form");
 const geoButton = jQuery("#send-location");
 socket.on("connect", function() {
-    console.log("connected to server");
+    let params = jQuery.deparam(window.location.search);
+    if (params.name != undefined || params.room != undefined) {
+        socket.emit("join", params, function(err) {
+            if (err) {
+                alert(err);
+                window.location.href = "/";
+            }
+        });
+    }
 });
 socket.on("disconnect", function() {
     console.log("Disconnected from server");
 });
-
-form.on("submit", function(e) {
+socket.on("updateUserList", function(users) {
+    console.log("TCL: users", users);
+});
+messageForm.on("submit", function(e) {
     e.preventDefault();
     socket.emit("createMessage", { from: "User", text: jQuery("[name=message]").val() }, function(data) {
         console.log("ACKOWNLEDGE ==> Got it", data);
     });
-    form.trigger("reset");
+    messageForm.trigger("reset");
 });
+
 geoButton.on("click", function(e) {
     e.preventDefault();
     navigator.geolocation.getCurrentPosition(

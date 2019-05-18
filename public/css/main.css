@@ -675,3 +675,21 @@ ul {
 #frame .content .message-input .wrap button:focus {
     outline: none;
 }
+.card {
+    border: 33px solid rgba(0, 0, 0, 0.125);
+    border-radius: 25px;
+    background-color: #121111;
+}
+.card-title {
+    color: aqua;
+    text-align: center;
+}
+.card-body {
+    color: aqua;
+}
+.card-footer {
+    text-align: center;
+}
+.btn-success {
+    width: 50%;
+}

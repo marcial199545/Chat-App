@@ -1,0 +1,121 @@
+<div id="frame">
+    <div id="sidepanel">
+        <div id="profile">
+            <div class="wrap">
+                <img id="profile-img" src="/icon/userDefaultImage.png" class="online" alt="" />
+                <p>User1</p>
+                <i class="fas fa-chevron-down expand-button" aria-hidden="true"></i>
+                <div id="status-options">
+                    <ul>
+                        <li id="status-online" class="active">
+                            <p>Online</p>
+                            <span class="status-circle"></span>
+                        </li>
+                        <li id="status-away">
+                            <p>Away</p>
+                            <span class="status-circle"></span>
+                        </li>
+                        <li id="status-busy">
+                            <p>Busy</p>
+                            <span class="status-circle"></span>
+                        </li>
+                        <li id="status-offline">
+                            <p>Offline</p>
+                            <span class="status-circle"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div id="expanded">
+                    <label for="twitter"><i class="fab fa-facebook-square fa-fw" aria-hidden="true"></i></label>
+                    <input name="twitter" type="text" value="Marcial Jimenez Caballero" />
+                    <label for="twitter"><i class="fab fa-twitter-square fa-fw" aria-hidden="true"></i></label>
+                    <input name="twitter" type="text" value="m_jc45" />
+                    <label for="twitter"><i class="fab fa-instagram fa-fw" aria-hidden="true"></i></label>
+                    <input name="twitter" type="text" value="marcial_jc" />
+                </div>
+            </div>
+        </div>
+        <div id="search">
+            <label for=""><i class="fa fa-search" aria-hidden="true"></i></label>
+            <input type="text" placeholder="Search contacts..." />
+        </div>
+        <div id="contacts">
+            <ul>
+                <li class="contact active">
+                    <div class="wrap">
+                        <span class="contact-status online"></span>
+                        <img src="/icon/userDefaultImage.png" alt="" />
+                        <div class="meta">
+                            <p class="name">user2</p>
+                            <p class="preview">some Message to preview</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="contact">
+                    <div class="wrap">
+                        <span class="contact-status busy"></span>
+                        <img src="/icon/userDefaultImage.png" alt="" />
+                        <div class="meta">
+                            <p class="name">user3</p>
+                            <p class="preview">some Message to preview</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="contact">
+                    <div class="wrap">
+                        <span class="contact-status away"></span>
+                        <img src="/icon/userDefaultImage.png" alt="" />
+                        <div class="meta">
+                            <p class="name">user4</p>
+                            <p class="preview">some Message to preview</p>
+                        </div>
+                    </div>
+                </li>
+                <li class="contact">
+                    <div class="wrap">
+                        <span class="contact-status"></span>
+                        <img src="/icon/userDefaultImage.png" alt="" />
+                        <div class="meta">
+                            <p class="name">user5</p>
+                            <p class="preview">some Message to preview</p>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="bottom-bar">
+            <button id="addcontact"><i class="fas fa-user-plus fa-fw" aria-hidden="true"></i> <span>Add
+                    contact</span></button>
+            <button id="send-location"><i class="fas fa-globe fa-fw" aria-hidden="true"></i> <span>Send
+                    Geolocation</span></button>
+        </div>
+    </div>
+    <div class="content">
+        <div class="contact-profile">
+            <img src="/icon/userDefaultImage.png" alt="" />
+            <p>User1</p>
+            <div class="social-media">
+                <i class="fab fa-facebook-square" aria-hidden="true"></i>
+                <i class="fab fa-twitter-square" aria-hidden="true"></i>
+                <i class="fab fa-instagram" aria-hidden="true"></i>
+            </div>
+        </div>
+        <div class="messages">
+            <ul>
+            </ul>
+        </div>
+        <div class="message-input">
+            <div class="wrap">
+                <form id="message-form">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button type="submit" class="submit btn btn-outline-success"><i class="fa fa-paper-plane"
+                                    aria-hidden="true"></i></button>
+                        </div>
+                        <input autocomplete="off" type="text" class="form-control" name="message" placeholder="Message">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
