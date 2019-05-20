@@ -16,8 +16,27 @@ socket.on("connect", function() {
 socket.on("disconnect", function() {
     console.log("Disconnected from server");
 });
+
 socket.on("updateUserList", function(users) {
     console.log("TCL: users", users);
+    let contactList = jQuery("#contacts ul");
+    contactList.empty();
+    users.forEach(function(user) {
+        contactList.append(
+            jQuery(
+                `<li class='contact'><div class="wrap"><span class="contact-status online" /><img src="/icon/userDefaultImage.png" alt="" /><div class="meta"><p class="name">${user}</p></div></div></li>`
+            )
+        );
+    });
+    // contactList.empty();
+    jQuery("#contacts").html(contactList);
+});
+socket.on("updateCurrentUser", function(currentUser) {
+    console.log("TCL: currentUser", currentUser);
+    let userName = jQuery("#userName");
+    let roomName = jQuery(".contact-profile p");
+    roomName.text(`Room: ${currentUser.room}`);
+    userName.text(`${currentUser.name}`);
 });
 messageForm.on("submit", function(e) {
     e.preventDefault();

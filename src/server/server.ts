@@ -27,19 +27,23 @@ io.on("connect", socket => {
         socket.join(params.room);
         usersUtils.removeUser(socket.id);
         usersUtils.addUser(params.name, params.room, socket.id);
-        io.to(params.room).emit("updateUserList", {
-            users: usersUtils.getUsersList(params.room),
-            currentUser: { name: params.name, room: params.room, id: socket.id }
+        io.to(params.room).emit("updateUserList", usersUtils.getUsersList(params.room));
+        socket.emit("updateCurrentUser", {
+            name: params.name,
+            room: params.room,
+            id: socket.id
         });
         socket.emit("newRecieveMessage", messageUtils.generateMessage("Admin", `Welcome to chat App room ${params.room}`));
-        socket.broadcast.to(params.room).emit("newRecieveMessage", messageUtils.generateMessage("Admin", `${params.name} Joined to ${params.room}`));
+        socket.broadcast
+            .to(params.room)
+            .emit("newRecieveMessage", messageUtils.generateMessage("Admin", `${params.name} Joined to Room: ${params.room}`));
         callback();
     });
     socket.on("disconnect", () => {
         let user = usersUtils.removeUser(socket.id);
         if (user) {
+            io.to(user.room).emit("newRecieveMessage", messageUtils.generateMessage("Admin", `${user.name} has left the room ${user.room}`));
             io.to(user.room).emit("updateUserList", usersUtils.getUsersList(user.room));
-            io.to(user.room).emit("newRecieveMessage", messageUtils.generateMessage("Admin", `${user.name} has left the ${user.room} room`));
         }
     });
 });
