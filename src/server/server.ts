@@ -12,13 +12,21 @@ io.on("connect", socket => {
     console.log("new User connected");
 
     socket.on("createMessage", (message, callback) => {
-        socket.emit("newSentMessage", messageUtils.generateMessage(message.from, message.text));
-        socket.broadcast.emit("newRecieveMessage", messageUtils.generateMessage(message.from, message.text));
+        let user = usersUtils.getUser(socket.id);
+        if (user && validationUtils.isRealString(message.text)) {
+            socket.emit("newSentMessage", messageUtils.generateMessage(user.name, message.text));
+            socket.broadcast.to(user.room).emit("newRecieveMessage", messageUtils.generateMessage(user.name, message.text));
+        }
         callback(message);
     });
     socket.on("createLocationMessage", coords => {
-        socket.emit("newSentLocationMessage", messageUtils.generateLocationMessage("User", coords.latitude, coords.longitude));
-        socket.broadcast.emit("newRecieveLocationMessage", messageUtils.generateLocationMessage("Admin", coords.latitude, coords.longitude));
+        let user = usersUtils.getUser(socket.id);
+        if (user) {
+            socket.emit("newSentLocationMessage", messageUtils.generateLocationMessage(user.name, coords.latitude, coords.longitude));
+            socket.broadcast
+                .to(user.room)
+                .emit("newRecieveLocationMessage", messageUtils.generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
     });
     socket.on("join", (params, callback) => {
         if (!validationUtils.isRealString(params.name) || !validationUtils.isRealString(params.room)) {

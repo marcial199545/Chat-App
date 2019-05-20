@@ -15,13 +15,21 @@ let io = socket_io_1.default(server);
 io.on("connect", socket => {
     console.log("new User connected");
     socket.on("createMessage", (message, callback) => {
-        socket.emit("newSentMessage", messageUtils_1.default.generateMessage(message.from, message.text));
-        socket.broadcast.emit("newRecieveMessage", messageUtils_1.default.generateMessage(message.from, message.text));
+        let user = usersUtils_1.default.getUser(socket.id);
+        if (user && validationUtils_1.default.isRealString(message.text)) {
+            socket.emit("newSentMessage", messageUtils_1.default.generateMessage(user.name, message.text));
+            socket.broadcast.to(user.room).emit("newRecieveMessage", messageUtils_1.default.generateMessage(user.name, message.text));
+        }
         callback(message);
     });
     socket.on("createLocationMessage", coords => {
-        socket.emit("newSentLocationMessage", messageUtils_1.default.generateLocationMessage("User", coords.latitude, coords.longitude));
-        socket.broadcast.emit("newRecieveLocationMessage", messageUtils_1.default.generateLocationMessage("Admin", coords.latitude, coords.longitude));
+        let user = usersUtils_1.default.getUser(socket.id);
+        if (user) {
+            socket.emit("newSentLocationMessage", messageUtils_1.default.generateLocationMessage(user.name, coords.latitude, coords.longitude));
+            socket.broadcast
+                .to(user.room)
+                .emit("newRecieveLocationMessage", messageUtils_1.default.generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
     });
     socket.on("join", (params, callback) => {
         if (!validationUtils_1.default.isRealString(params.name) || !validationUtils_1.default.isRealString(params.room)) {

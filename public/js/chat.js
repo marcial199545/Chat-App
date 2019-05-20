@@ -99,7 +99,7 @@ socket.on("newRecieveLocationMessage", function(message) {
     jQuery(
         `<li class="replies"><img src="/icon/userDefaultImage.png" alt="" /><p><a target="_blank" href ="${message.url}">${
             message.from
-        } ${formatedTime}: Go to your location</a></p></li>`
+        } ${formatedTime}: Go to location</a></p></li>`
     ).appendTo(jQuery(".messages ul"));
     jQuery(".contact.active .preview").html(`Go to location`);
     jQuery(".messages").animate({ scrollTop: jQuery(document).height() }, "fast");
